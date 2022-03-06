@@ -21,12 +21,12 @@ use board::hal::{
 };
 
 use core::cell::RefCell;
-use manchester_code::{BitOrder, Decoder};
+use manchester_code::{InactivityLevel, FirstBitExpectation, BitOrder, Decoder};
 
 static IR_DIODE: Mutex<RefCell<Option<PB3<Input<PullUp>>>>> = Mutex::new(RefCell::new(None));
 static DECODER: Mutex<RefCell<Decoder>> = Mutex::new(RefCell::new(Decoder::new(
-    true,
-    false,
+    InactivityLevel::High,
+    FirstBitExpectation::One,
     BitOrder::LittleEndian,
 )));
 static TIMER_TIM2: Mutex<RefCell<Option<Timer<stm32::TIM2>>>> = Mutex::new(RefCell::new(None));
