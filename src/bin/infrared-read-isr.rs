@@ -10,6 +10,7 @@ use cortex_m::{
     interrupt::{free, Mutex},
 };
 
+use core::cell::RefCell;
 use core::ops::DerefMut;
 
 use board::hal::{
@@ -20,14 +21,13 @@ use board::hal::{
     timer::Timer,
 };
 
-use core::cell::RefCell;
-use manchester_code::{InactivityLevel, FirstBitExpectation, BitOrder, Decoder};
+use manchester_code::{BitOrder, Decoder, FirstBitExpectation, InactivityLevel};
 
 static IR_DIODE: Mutex<RefCell<Option<PB3<Input<PullUp>>>>> = Mutex::new(RefCell::new(None));
 static DECODER: Mutex<RefCell<Decoder>> = Mutex::new(RefCell::new(Decoder::new(
     InactivityLevel::High,
     FirstBitExpectation::One,
-    BitOrder::LittleEndian,
+    BitOrder::BigEndian,
 )));
 static TIMER_TIM2: Mutex<RefCell<Option<Timer<stm32::TIM2>>>> = Mutex::new(RefCell::new(None));
 
@@ -82,7 +82,7 @@ fn main() -> ! {
         IR_DIODE.borrow(cs).replace(Some(ir_diode));
     });
 
-    defmt::println!("Start receiving ... (little endian)");
+    defmt::println!("Start receiving ... (zero start, big endian)");
 
     loop {
         // asm::wfi();  // does not work in conjunction with  rtt defmt

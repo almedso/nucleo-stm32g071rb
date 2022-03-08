@@ -9,7 +9,7 @@ use board::hal::nb::block;
 use board::hal::prelude::*;
 use board::hal::stm32;
 
-use manchester_code::{InactivityLevel, FirstBitExpectation, BitOrder, Decoder};
+use manchester_code::{BitOrder, Decoder, FirstBitExpectation, InactivityLevel};
 
 #[cortex_m_rt::entry]
 fn main() -> ! {
@@ -25,7 +25,8 @@ fn main() -> ! {
     let mut receiver = Decoder::new(
         InactivityLevel::High,
         FirstBitExpectation::One,
-        BitOrder::BigEndian);
+        BitOrder::BigEndian,
+    );
     defmt::println!("Start receiving ... (big endian)");
 
     loop {
