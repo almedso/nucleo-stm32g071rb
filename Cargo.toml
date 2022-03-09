@@ -19,7 +19,6 @@ manchester-code = "0.2.0"
 # manchester-code = { git = "https://github.com/almedso/manchester-code.git", branch = "master" }
 # manchester-code = { path = "../manchester-code" }
 
-
 # cargo build/run
 [profile.dev]
 codegen-units = 1
