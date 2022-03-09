@@ -19,3 +19,6 @@ pub fn exit() -> ! {
         cortex_m::asm::bkpt();
     }
 }
+
+pub mod grove_lcd_rgb_backlight;
+pub use grove_lcd_rgb_backlight as lcd;
