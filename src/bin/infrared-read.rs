@@ -9,7 +9,7 @@ use board::hal::nb::block;
 use board::hal::prelude::*;
 use board::hal::stm32;
 
-use manchester_code::{BitOrder, Decoder, FirstBitExpectation, InactivityLevel};
+use manchester_code::{BitOrder, Decoder, SyncOnTurningEdge, ActivityLevel};
 
 #[cortex_m_rt::entry]
 fn main() -> ! {
@@ -23,8 +23,8 @@ fn main() -> ! {
     let mut timer = dp.TIM17.timer(&mut rcc);
     timer.start(296.us()); // 889 µs / 4; aka 4 samples per half bit period
     let mut receiver = Decoder::new(
-        InactivityLevel::High,
-        FirstBitExpectation::One,
+        ActivityLevel::Low,
+        SyncOnTurningEdge::Second,
         BitOrder::BigEndian,
     );
     defmt::println!("Start receiving ... (big endian)");

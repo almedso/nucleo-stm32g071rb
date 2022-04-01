@@ -21,12 +21,13 @@ use board::hal::{
     timer::Timer,
 };
 
-use manchester_code::{BitOrder, Decoder, FirstBitExpectation, InactivityLevel};
+use manchester_code::{BitOrder, Decoder, SyncOnTurningEdge, ActivityLevel};
+
 
 static IR_DIODE: Mutex<RefCell<Option<PB3<Input<PullUp>>>>> = Mutex::new(RefCell::new(None));
 static DECODER: Mutex<RefCell<Decoder>> = Mutex::new(RefCell::new(Decoder::new(
-    InactivityLevel::High,
-    FirstBitExpectation::One,
+    ActivityLevel::Low,
+    SyncOnTurningEdge::Second,
     BitOrder::BigEndian,
 )));
 static TIMER_TIM2: Mutex<RefCell<Option<Timer<stm32::TIM2>>>> = Mutex::new(RefCell::new(None));
